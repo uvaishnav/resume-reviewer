@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { register } from '../Services/authService';
+import './index.css'; // Import CSS file for styling
 
 const Register = () => {
   const [username, setUsername] = useState('');
@@ -40,7 +41,7 @@ const Register = () => {
   };
 
   return (
-    <div>
+    <div className="form-container">
       <h2>Register</h2>
       <form onSubmit={handleSubmit}>
         <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Username" required />

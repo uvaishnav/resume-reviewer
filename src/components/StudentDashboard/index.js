@@ -1,3 +1,5 @@
+// StudentDashboard.js
+
 import React, { useState, useEffect } from 'react';
 import { getCurrentUser } from '../Services/authService';
 import { uploadResume, getFeedback } from '../Services/studentService';
@@ -54,9 +56,9 @@ const StudentDashboard = () => {
   };
 
   return (
-    <div>
+    <div className="student-dashboard">
       <h2>Student Dashboard</h2>
-      <div>
+      <div className="upload-section">
         <h3>Upload Your Resume</h3>
         <Dropzone onDrop={handleDrop} multiple={false} accept="application/pdf">
           {({ getRootProps, getInputProps }) => (
@@ -73,10 +75,10 @@ const StudentDashboard = () => {
           onChange={(e) => setApplyingRole(e.target.value)}
         />
         <button onClick={handleResumeUpload}>Upload</button>
-        {message && <p>{message}</p>}
+        {message && <p className="message">{message}</p>}
       </div>
 
-      <div>
+      <div className="feedback-section">
         <h3>Feedback</h3>
         {feedback.length > 0 ? (
           <ul>

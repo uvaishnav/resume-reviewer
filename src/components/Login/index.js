@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { login } from '../Services/authService';
+import './index.css';
 
 const Login = () => {
   const [username, setUsername] = useState('');
@@ -25,20 +26,31 @@ const Login = () => {
       })
       .catch(error => {
         // Handle login error
-        console.error('Login error:', error);
-        setError('Login failed. Please try again later.');
+        setError('Login error: ' + error.message);
       });
   };
 
   return (
-    <div>
+    <div className="login-container">
       <h2>Login</h2>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
       <form onSubmit={handleSubmit}>
-        <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Username" required />
-        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" required />
+        <input 
+          type="text" 
+          value={username} 
+          onChange={(e) => setUsername(e.target.value)} 
+          placeholder="Username" 
+          required 
+        />
+        <input 
+          type="password" 
+          value={password} 
+          onChange={(e) => setPassword(e.target.value)} 
+          placeholder="Password" 
+          required 
+        />
         <button type="submit">Login</button>
       </form>
+      {error && <div className="error">{error}</div>}
     </div>
   );
 };

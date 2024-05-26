@@ -1,9 +1,132 @@
+/* StudentDashboard.css */
+
+.student-dashboard {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+  background: linear-gradient(135deg, #4a90e2, #8e44ad);
+  color: #fff;
+  border-radius: 10px;
+  animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.upload-section {
+  margin-bottom: 30px;
+  animation: slideInLeft 0.5s ease;
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
 
 .dropzone {
-    margin: 20px auto;
-    padding: 20px;
-    border: 2px dashed #007bff;
-    border-radius: 10px;
-    width: 50%;
-    cursor: pointer;
+  border: 2px dashed #2980b9; /* Updated border color */
+  border-radius: 5px;
+  padding: 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease, border-color 0.3s ease; /* Added border-color transition */
+}
+
+.dropzone:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.dropzone.active {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.dropzone.has-pdf {
+  background-color: rgba(46, 204, 113, 0.5);
+}
+
+.dropzone p {
+  margin: 0;
+}
+
+.dropzone img {
+  width: 50px; /* Adjust the size of the image */
+  height: 50px; /* Adjust the size of the image */
+}
+
+input[type="text"] {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 10px;
+  width: calc(100% - 22px);
+  border: 1px solid #fff;
+  border-radius: 5px;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  transition: background-color 0.3s ease;
+}
+
+input[type="text"]:focus {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+button {
+  margin-top: 10px;
+  background-color: #fff;
+  color: #4a90e2;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+button:hover {
+  background-color: #f0f0f0;
+  color: #2980b9;
+}
+
+.message {
+  margin-top: 10px;
+}
+
+.feedback-section ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.feedback-section li {
+  margin-bottom: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  padding: 10px;
+  border-radius: 5px;
+  background-color: rgba(255, 255, 255, 0.1);
+  animation: slideInRight 0.5s ease;
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
   }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.feedback-section p {
+  margin: 5px 0;
+}
