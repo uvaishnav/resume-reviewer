@@ -1,70 +1,115 @@
-# Getting Started with Create React App
+## 📄 Resume Reviewer
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A web application that allows students to upload their resumes for review by alumni, who can then provide detailed feedback to help students improve their resumes.
 
-## Available Scripts
+## 🚀 Motivation
 
-In the project directory, you can run:
+In today's competitive job market, having a well-crafted resume is crucial. Resume Reviewer aims to bridge the gap between students and alumni by providing a platform where experienced professionals can review and provide valuable feedback on student resumes. This not only helps students enhance their resumes but also fosters a collaborative community.
 
-### `npm start`
+## 🛠️ Technology Stack Used
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 🛠️ Technology Stack Used
 
-### `npm run build`
+| Category            | Technology       |
+|---------------------|------------------|
+| **Frontend**        | React <br> HTML5 <br> CSS3 <br> Dropzone |
+| **Backend**         | Node.js <br> Express.js <br> SQLite |
+| **Authentication**  | JWT <br> bcrypt |
+| **Deployment**      | Local environment (Node.js) |
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## 🏗️ Implementation Overview
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### 🖥️ User Interface
+- Designed a user-friendly interface with React, including components for student and alumni dashboards.
+- Implemented Dropzone for seamless resume upload functionality.
 
-### `npm run eject`
+### 🔍 Complexity Understanding
+- Managed state and side-effects in React using hooks (`useState`, `useEffect`).
+- Implemented role-based access control to ensure secure and appropriate access to different parts of the application.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### 🔒 Security Implementation
+- Utilized JWT for secure authentication.
+- Applied bcrypt for secure password hashing and storage.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### 🧪 Unit Testing 
+- Implemented basic unit tests to ensure functionality of critical components and services (using Jest).
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### ⚠️ Validation and Error Handling
+- Included comprehensive input validation and error handling both on the client-side and server-side.
+- Ensured meaningful error messages and feedback are provided to users.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### 🔗 Integration 
+- Integrated frontend and backend seamlessly with clear and secure API endpoints.
+- Handled file uploads and database interactions efficiently.
 
-## Learn More
+### 🛤️ Backend Routes
+- **User Registration:** Handles registration for both students and alumni, including additional details for each role.
+- **User Login:** Authenticates users and provides a JWT token.
+- **Resume Upload:** Allows students to upload their resumes.
+- **Feedback Submission:** Enables alumni to submit feedback for student resumes.
+- **Feedback Retrieval:** Allows students to view feedback received on their resumes.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## 🏃‍♂️ Run Locally
 
-### Code Splitting
+To run this project locally, follow these steps:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+1. **Clone the repository:**
+    ```bash
+    git clone https://github.com/uvaishnav/resume-reviewer.git
+    cd resume-reviewer
+    ```
 
-### Analyzing the Bundle Size
+2. **Install backend dependencies:**
+    ```bash
+    cd backend
+    npm install
+    ```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+3. **Run the backend server:**
+    ```bash
+    node server.js
+    ```
 
-### Making a Progressive Web App
+4. **Install frontend dependencies:**
+    ```bash
+    cd ../frontend
+    npm install
+    ```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+5. **Run the frontend server:**
+    ```bash
+    npm start
+    ```
 
-### Advanced Configuration
+6. **Access the application:**
+    Open your browser and go to [http://localhost:3000](http://localhost:3000).
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
 
-### Deployment
+## 📈 Scope of Improvement
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+### Enhanced UI/UX:
+- Improve the overall design and responsiveness of the application.
+- Add user notifications for various actions (e.g., resume upload success, feedback received).
 
-### `npm run build` fails to minify
+### Advanced Security Features:
+- Implement OAuth for social login options.
+- Add rate limiting and account lockout mechanisms to prevent brute force attacks.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### Scalability:
+- Migrate from SQLite to a more robust database solution like PostgreSQL or MongoDB.
+- Deploy the application on cloud platforms like AWS, Azure, or Heroku.
+
+### Additional Features:
+- Implement a search and filter functionality for resumes and feedback.
+- Add the ability for alumni to rate resumes or provide additional resources for improvement.
+
+### Automated Testing:
+- Expand unit tests and add integration tests to cover more components and edge cases.
+- Set up continuous integration and continuous deployment (CI/CD) pipelines.
+
+By following this README, you can understand the motivation behind the project, the technology stack used, implementation highlights, how to run the project locally, and potential areas for further improvement.
