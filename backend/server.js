@@ -2,16 +2,28 @@ const express = require('express');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const multer = require('multer');
+const path = require('path');
 const cors = require('cors');
 const db = require('./database');
 
 const app = express();
 const port = 9000;
-const upload = multer({ dest: 'uploads/' });
+
+const storage = multer.diskStorage({
+    destination: (request, file, cb) => {
+      cb(null, 'uploads/');
+    },
+    filename: (request, file, cb) => {
+      cb(null, `${Date.now()}-${file.originalname}`);
+    },
+});
+
+const upload = multer({ storage });
+
 const secretKey = 'uvaishnav';
 
 app.use(cors());
-app.use(express.json())
+app.use(express.json());
 
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
@@ -105,7 +117,7 @@ app.post("/api/login", async (request, response) => {
         });
 
         if (user === undefined) {
-            response.status(400).send("Invalid user");
+            response.status(400).send({message:"Invalid user"});
             return;
         }
 
@@ -113,7 +125,7 @@ app.post("/api/login", async (request, response) => {
         const isPasswordMatched = await bcrypt.compare(password, dbPassword);
 
         if (!isPasswordMatched) {
-            response.status(400).send("Invalid password");
+            response.status(400).send({message:"Invalid password"});
             return;
         }
 
@@ -124,7 +136,144 @@ app.post("/api/login", async (request, response) => {
 
     } catch (error) {
         console.error(`Login failed: ${error.message}`);
-        response.status(500).send("Internal server error");
+        response.status(500).send({message: "Internal server error"});
     }
 });
 
+// MIDLEWARE TO AUTHENTICATE
+const INVALID_TOKEN_MESSAGE = "Invalid JWT Token";
+
+const sendUnauthorizedResponse = (response) => {
+    return response.status(401).send(INVALID_TOKEN_MESSAGE);
+};
+
+const checkUserAuth = (request, response, next) => {
+    try {
+      const authHeader = request.headers["authorization"];
+      
+      if (!authHeader) {
+        return sendUnauthorizedResponse(response);
+      }
+      
+      const jwtToken = authHeader.split(" ")[1];
+      
+      if (!jwtToken) {
+        return sendUnauthorizedResponse(response);
+      }
+      
+      jwt.verify(jwtToken, secretKey, (error, payload) => {
+        if (error) {
+            console.log("Authorization failed")
+          return sendUnauthorizedResponse(response);
+        }
+
+        console.log("Authorization Successful")
+        
+        request.userDetails = payload;
+        next();
+      });
+    } catch (error) {
+      // Centralized error handling
+      console.error("Error in authentication middleware:", error);
+      response.status(500).send("Internal Server Error");
+    }
+};
+
+app.post('/api/upload-resume', checkUserAuth, upload.single('resume'), async (request, response) => {
+    const { id, role } = request.userDetails; // Assuming you have middleware to extract user info from JWT
+    const filePath = request.file.path;
+    const applyingRole = request.body.applyingRole;
+
+    console.log(id,filePath,role,applyingRole)
+  
+    // Check if the authenticated user is a student
+    if (role !== 'student') {
+      return response.status(403).send("Forbidden: Only students can upload resumes");
+    }
+  
+    const addResumeQuery = `INSERT INTO resumes (user_id, file_path, apply_role) VALUES (?, ?, ?)`;
+  
+    try {
+      await new Promise((resolve, reject) => {
+        db.run(addResumeQuery, [id, filePath, applyingRole], function (err) {
+          if (err) reject(err);
+          else resolve(this.lastID);
+        });
+      });
+      response.status(200).send("Resume uploaded successfully");
+    } catch (error) {
+      console.error(`Failed to upload resume: ${error.message}`);
+      response.status(500).send("Internal server error");
+    }
+});
+
+// Get Resumes Route (only for alumni)
+app.get('/api/resumes', checkUserAuth, async (request, response) => {
+    const { role } = request.userDetails;
+  
+    if (role !== 'alumni') {
+      return response.status(403).json({ error: 'Access denied' });
+    }
+  
+    const getResumesQuery = `
+      SELECT r.id, u.username, r.file_path
+      FROM resumes r
+      JOIN users u ON r.user_id = u.id
+    `;
+  
+    try {
+      const resumes = await new Promise((resolve, reject) => {
+        db.all(getResumesQuery, [], (err, rows) => {
+          if (err) reject(err);
+          else resolve(rows);
+        });
+      });
+      response.json(resumes);
+    } catch (error) {
+      console.error(`Failed to fetch resumes: ${error.message}`);
+      response.status(500).json({ error: 'Failed to fetch resumes' });
+    }
+});
+
+// Submit Feedback Route
+app.post('/api/feedback', checkUserAuth, async (request, response) => {
+    try {
+        const { resumeId, skills, projects, feedback } = request.body;
+
+        // Ensure required fields are provided
+        if (!resumeId || !skills || !projects || !feedback) {
+            return response.status(400).json({ error: 'Missing required fields' });
+        }
+
+        const { id } = request.userDetails; // Extract user ID from authenticated user
+
+        const insertFeedbackQuery = `INSERT INTO feedback (resume_id, user_id, skills, projects, feedback) VALUES (?, ?, ?, ?, ?)`;
+
+        await new Promise((resolve, reject) => {
+            db.run(insertFeedbackQuery, [resumeId, id, skills, projects, feedback], function (err) {
+                if (err) reject(err);
+                else resolve(this.lastID);
+            });
+        });
+
+        response.json({ message: 'Feedback submitted successfully' });
+    } catch (error) {
+        console.error(`Failed to submit feedback: ${error.message}`);
+        response.status(500).json({ error: 'Failed to submit feedback' });
+    }
+});
+
+
+app.get('/api/feedback', checkUserAuth, (request, response) => {
+    const {id} = request.userDetails;
+
+    const selectFeedbackQuery = `SELECT * FROM feedback WHERE user_id = ?`;
+
+    db.all(selectFeedbackQuery, [id], (err, rows) => {
+        if (err) {
+            console.error(`Failed to fetch feedback: ${err.message}`);
+            return response.status(500).json({ error: 'Failed to fetch feedback' });
+        }
+        response.json(rows);
+    });
+});

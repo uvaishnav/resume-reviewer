@@ -22,6 +22,8 @@ db.serialize(()=>{
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         resume_id INTEGER,
         user_id INTEGER,
+        skills TEXT,
+        projects TEXT,
         feedback TEXT,
         FOREIGN KEY(resume_id) REFERENCES resumes(id),
         FOREIGN KEY(user_id) REFERENCES users(id)
