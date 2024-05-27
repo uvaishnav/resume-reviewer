@@ -62,7 +62,7 @@ To run this project locally, follow these steps:
     cd resume-reviewer
     ```
 
-2. **Install backend dependencies:**
+2. **Install backend dependencies:** (in a new terminal)
     ```bash
     cd backend
     npm install
