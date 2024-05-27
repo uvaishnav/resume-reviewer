@@ -6,8 +6,6 @@ A web application that allows students to upload their resumes for review by alu
 
 In today's competitive job market, having a well-crafted resume is crucial. Resume Reviewer aims to bridge the gap between students and alumni by providing a platform where experienced professionals can review and provide valuable feedback on student resumes. This not only helps students enhance their resumes but also fosters a collaborative community.
 
-## 🛠️ Technology Stack Used
-
 
 
 
