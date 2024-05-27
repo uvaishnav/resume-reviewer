@@ -73,9 +73,8 @@ To run this project locally, follow these steps:
     node server.js
     ```
 
-4. **Install frontend dependencies:**
+4. **Install frontend dependencies:** (in the first terminal)
     ```bash
-    cd ../frontend
     npm install
     ```
 
