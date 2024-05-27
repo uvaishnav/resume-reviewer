@@ -1,137 +1,88 @@
-/* index.css */
-
+/* General styles */
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background: linear-gradient(135deg, #f9d423, #ff4e50); /* Gradient background */
-  }
-  
-  /* Navigation bar */
-  nav {
-    background-color: rgba(51, 51, 51, 0.8); /* Dark background with transparency */
-    color: #fff;
-    padding: 10px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  nav a {
-    color: #fff;
-    text-decoration: none;
-    margin: 0 10px;
-    font-size: 16px;
-  }
-  
-  nav a:hover {
-    text-decoration: underline;
-  }
-  
-  .active {
-    font-weight: bold;
-  }
-  
-  /* Main content container */
-  .main-content {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-  }
-  
-  /* Left section with description */
-  .left-section {
-    width: 50%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background-color: rgba(255, 255, 255, 0.9); /* Light background with transparency */
-    padding: 0px;
-    height: 100%;
-  }
-  
-  .site-description {
-    width: 100%;
-    padding: 20px;
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  
-  .site-description h1 {
-    font-family: 'Arial Black', sans-serif;
-    font-size: 50px;
-    text-align: left;
-    margin-left: 15px;
-    margin-top: -200px;
-  }
-  
-  .site-description p {
-    font-size: 32px;
-    line-height: 1.5;
-    margin-top: 30px;
-    text-align: justify;
-    margin-left: 15px;
-  }
-  
-  .site-description a {
-    display: inline-block;
-    margin: 0 10px;
-    padding: 20px 30px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    text-decoration: none;
-    color: #333;
-    font-size: 24px;
-    transition: all 0.2s ease-in-out;
-  }
-  
-  .site-description a:hover {
-    background-color: #e7e7e7;
-  }
-  
-  /* Right section with image */
-  .right-section {
-    width: 50%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background-color: rgba(255, 255, 255, 0.9); /* Light background with transparency */
-    height: 100%;
-    color: #fff;
-    padding: 0px;
-  }
-  
-  .right-section img {
-    width: 100%;
-    border-radius: 8px;
-    margin-bottom: 20px;
-    height: 650px;
-  }
-  
-  /* Logo */
-  nav img.logo {
-    width: 100px; /* Adjust width as needed */
-    height: auto; /* Maintain aspect ratio */
-    margin: 5px 10px 0px 0px; /* Adjust spacing as needed */
-  }
-  
-  /* Animation */
-  .fadeIn {
-    animation: fadeIn 1s ease;
-  }
-  
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(-20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  
+  margin: 0;
+  padding: 0;
+  font-family: 'Arial', sans-serif;
+  /* background: url('/path/to/your/background-image.jpg') no-repeat center center fixed; */
+  background-size: cover;
+  color: white;
+}
+
+/* Container styles */
+.homepage-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  text-align: center;
+  /* background: rgba(0, 0, 0, 0.5); */
+}
+
+/* Main content styles */
+.main-content {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Left section styles */
+.left-section {
+  max-width: 600px;
+  width: 50vw;
+}
+.right-section{
+  height: 100vh;
+  width: 75vh;
+  background-size: cover;
+}
+
+.right-section img{
+  height: 100%;
+  width: 100%;
+}
+
+/* Heading styles */
+h1 {
+  font-size: 3em;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: #f39c12;
+}
+
+/* Paragraph styles */
+p {
+  font-size: 1.2em;
+  margin-bottom: 30px;
+  line-height: 1.6;
+}
+
+/* Button styles */
+.buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 15px;
+  align-items: center;
+}
+
+.btn {
+  background: #e74c3c;
+  color: white;
+  text-decoration: none;
+  padding: 15px 25px;
+  border-radius: 5px;
+  font-size: 1.1em;
+  transition: background 0.3s ease;
+}
+
+.btn:hover {
+  background: #37ea52;
+  color: black;
+}

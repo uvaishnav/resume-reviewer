@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:9000/api'
+const API_URL = process.env.REACT_APP_API_URL;
 
 export const uploadResume = async (token, formData) => {
     const config = {
@@ -10,7 +10,7 @@ export const uploadResume = async (token, formData) => {
     };
     
     try {
-      const response = await fetch(`${API_URL}/upload-resume`, config);
+      const response = await fetch(`${API_URL}/api/upload-resume`, config);
       console.log(response.status)
       if (!response.ok) {
         throw new Error('Failed to upload resume');
@@ -32,7 +32,7 @@ export const uploadResume = async (token, formData) => {
     };
     
     try {
-      const response = await fetch(`${API_URL}/feedback`, config);
+      const response = await fetch(`${API_URL}/api/feedback`, config);
       if (!response.ok) {
         throw new Error('Failed to fetch feedback');
       }
@@ -42,5 +42,24 @@ export const uploadResume = async (token, formData) => {
       console.error('Error fetching feedback:', error);
       throw error;
     }
+
   };
-  
+  export const fetchAlumniDetails = async (alumniId, token) => {
+    try {
+      const response = await fetch(`${API_URL}/api/alumni/${alumniId}`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      if (response.ok) {
+        const alumniDetails = await response.json();
+        return alumniDetails;
+      } else {
+        throw new Error('Failed to fetch alumni details');
+      }
+    } catch (error) {
+      console.error('Error fetching alumni details:', error);
+      throw error;
+    }
+  };

@@ -2,12 +2,13 @@
 
 body {
     font-family: Arial, sans-serif;
-    background-image: url('/Users/uvaishnav/resume-reviewer/public/3408105.jpg'); /* Replace with the correct path */
+    background-image: url('/Users/uvaishnav/resume-reviewer/public/ezgif-6-736bd20786.gif'); /* Replace with the correct path */
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     margin: 0;
     display: flex;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
     height: 100vh;
@@ -38,6 +39,7 @@ body {
     margin-bottom: 1rem;
     border: 1px solid #ccc;
     border-radius: 4px;
+    color: #0056b3;
     font-size: 1rem;
   }
   

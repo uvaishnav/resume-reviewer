@@ -1,8 +1,8 @@
 const sqlite3 = require('sqlite3').verbose();
-const db = new sqlite3.Database(':memory:');
+const db = new sqlite3.Database('mydatabase.db');  // Specify the file path for the database
 
-db.serialize(()=>{
-    db.run(`CREATE TABLE users (
+db.serialize(() => {
+    db.run(`CREATE TABLE IF NOT EXISTS users (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         username TEXT UNIQUE,
         password TEXT,
@@ -10,7 +10,7 @@ db.serialize(()=>{
         role TEXT
     )`);
 
-    db.run(`CREATE TABLE resumes (
+    db.run(`CREATE TABLE IF NOT EXISTS resumes (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         user_id INTEGER,
         file_path TEXT,
@@ -18,7 +18,7 @@ db.serialize(()=>{
         FOREIGN KEY(user_id) REFERENCES users(id)
     )`);
 
-    db.run(`CREATE TABLE feedback (
+    db.run(`CREATE TABLE IF NOT EXISTS feedback (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         resume_id INTEGER,
         user_id INTEGER,
@@ -29,7 +29,7 @@ db.serialize(()=>{
         FOREIGN KEY(user_id) REFERENCES users(id)
     )`);
 
-    db.run(`CREATE TABLE student (
+    db.run(`CREATE TABLE IF NOT EXISTS student (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         user_id INTEGER,
         email TEXT,
@@ -39,7 +39,7 @@ db.serialize(()=>{
         FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
     )`);
 
-    db.run(`CREATE TABLE alumni (
+    db.run(`CREATE TABLE IF NOT EXISTS alumni (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         user_id INTEGER,
         email TEXT,
@@ -47,8 +47,7 @@ db.serialize(()=>{
         curr_role TEXT,
         suggest_roles TEXT,
         FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
-      )`);
-    
-})
+    )`);
+});
 
 module.exports = db;

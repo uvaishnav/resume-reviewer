@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
@@ -7,27 +8,31 @@ const cors = require('cors');
 const db = require('./database');
 
 const app = express();
-const port = 9000;
+const PORT = process.env.PORT || 3000;
 
 const storage = multer.diskStorage({
     destination: (request, file, cb) => {
-      cb(null, 'uploads/');
+        cb(null, 'uploads/');
     },
     filename: (request, file, cb) => {
-      cb(null, `${Date.now()}-${file.originalname}`);
+        cb(null, `${Date.now()}-${file.originalname}`);
     },
 });
 
 const upload = multer({ storage });
+
+// Serve static files from the 'uploads' directory
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 const secretKey = 'uvaishnav';
 
 app.use(cors());
 app.use(express.json());
 
-app.listen(port, () => {
-    console.log(`Server running at http://localhost:${port}`);
+app.listen(PORT, () => {
+    console.log(`Server running at http://localhost:${PORT}`);
 });
+
 
 // USER REGESTRATION
 
@@ -132,7 +137,7 @@ app.post("/api/login", async (request, response) => {
         const payload = { id: user.id, role: user.role };
         const jwtToken = jwt.sign(payload, secretKey, { expiresIn: '1h' });
 
-        response.send({ jwtToken, role: user.role });
+        response.send({ jwtToken, role: user.role, name:user.name,});
 
     } catch (error) {
         console.error(`Login failed: ${error.message}`);
@@ -184,26 +189,47 @@ app.post('/api/upload-resume', checkUserAuth, upload.single('resume'), async (re
     const filePath = request.file.path;
     const applyingRole = request.body.applyingRole;
 
-    console.log(id,filePath,role,applyingRole)
-  
+    console.log(id, filePath, role, applyingRole);
+
     // Check if the authenticated user is a student
     if (role !== 'student') {
-      return response.status(403).send("Forbidden: Only students can upload resumes");
+        return response.status(403).send("Forbidden: Only students can upload resumes");
     }
-  
-    const addResumeQuery = `INSERT INTO resumes (user_id, file_path, apply_role) VALUES (?, ?, ?)`;
-  
+
+    // Check if the user already has a resume
+    const checkResumeQuery = `SELECT * FROM resumes WHERE user_id = ?`;
     try {
-      await new Promise((resolve, reject) => {
-        db.run(addResumeQuery, [id, filePath, applyingRole], function (err) {
-          if (err) reject(err);
-          else resolve(this.lastID);
+        const existingResume = await new Promise((resolve, reject) => {
+            db.get(checkResumeQuery, [id], function (err, row) {
+                if (err) reject(err);
+                else resolve(row);
+            });
         });
-      });
-      response.status(200).send("Resume uploaded successfully");
+
+        // If user has an existing resume, update it
+        if (existingResume) {
+            const updateResumeQuery = `UPDATE resumes SET file_path = ?, apply_role = ? WHERE user_id = ?`;
+            await new Promise((resolve, reject) => {
+                db.run(updateResumeQuery, [filePath, applyingRole, id], function (err) {
+                    if (err) reject(err);
+                    else resolve();
+                });
+            });
+            response.status(200).send("Resume updated successfully");
+        } else {
+            // If user doesn't have an existing resume, insert a new one
+            const addResumeQuery = `INSERT INTO resumes (user_id, file_path, apply_role) VALUES (?, ?, ?)`;
+            await new Promise((resolve, reject) => {
+                db.run(addResumeQuery, [id, filePath, applyingRole], function (err) {
+                    if (err) reject(err);
+                    else resolve(this.lastID);
+                });
+            });
+            response.status(200).send("Resume uploaded successfully");
+        }
     } catch (error) {
-      console.error(`Failed to upload resume: ${error.message}`);
-      response.status(500).send("Internal server error");
+        console.error(`Failed to upload or update resume: ${error.message}`);
+        response.status(500).send("Internal server error");
     }
 });
 
@@ -263,17 +289,70 @@ app.post('/api/feedback', checkUserAuth, async (request, response) => {
     }
 });
 
+app.get('/api/alumni/:id', checkUserAuth, async (request, response) => {
+    const { id } = request.params;
+    console.log(id)
+    const getAlumniDetails = `
+        SELECT u.name, a.email, a.linkedin, a.curr_role 
+        FROM users u 
+        JOIN alumni a ON u.id = a.user_id 
+        WHERE u.id = ?
+    `;
 
-app.get('/api/feedback', checkUserAuth, (request, response) => {
-    const {id} = request.userDetails;
+    try {
+        const userDetails = await new Promise((resolve, reject) => {
+            db.get(getAlumniDetails, [id], (err, row) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(row);
+                }
+            });
+        });
 
-    const selectFeedbackQuery = `SELECT * FROM feedback WHERE user_id = ?`;
-
-    db.all(selectFeedbackQuery, [id], (err, rows) => {
-        if (err) {
-            console.error(`Failed to fetch feedback: ${err.message}`);
-            return response.status(500).json({ error: 'Failed to fetch feedback' });
+        if (!userDetails) {
+            console.log("No alumni found for the user");
+            return response.json({}); // Return an empty JSON object
         }
-        response.json(rows);
-    });
+
+        response.json(userDetails);
+    } catch (error) {
+        console.error("Couldn't get data", error);
+        response.status(500).json({ error: 'Failed to fetch alumni' });
+    }
 });
+
+
+app.get('/api/feedback', checkUserAuth, async (request, response) => {
+    const { id, role } = request.userDetails;
+    console.log(role);
+
+    const selectFeedbackQuery = `
+        SELECT f.user_id, f.skills, f.projects, f.feedback 
+        FROM feedback f, resumes r 
+        WHERE r.id = f.resume_id AND r.user_id = ?
+    `;
+
+    try {
+        const feedback = await new Promise((resolve, reject) => {
+            db.all(selectFeedbackQuery, [id], (err, rows) => {
+                if (err) reject(err);
+                else resolve(rows);
+            });
+        });
+
+        if (feedback.length === 0) {
+            console.log("No feedback found for the user");
+            return response.json([]); // Return an empty array as there is no feedback
+        }
+
+        console.log("Extracted feedback");
+        response.json(feedback);
+    } catch (error) {
+        console.error(`Failed to fetch feedback: ${error.message}`);
+        response.status(500).json({ error: 'Failed to fetch feedback' });
+    }
+});
+
+
+

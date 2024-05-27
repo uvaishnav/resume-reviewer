@@ -1,12 +1,37 @@
 /* StudentDashboard.css */
-
-.student-dashboard {
+.student-container{
+  background-color:transperent;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+.alumni-details-section{
+  height: 50vh;
   font-family: Arial, sans-serif;
   padding: 20px;
   background: linear-gradient(135deg, #4a90e2, #8e44ad);
   color: #fff;
   border-radius: 10px;
   animation: fadeIn 0.5s ease;
+  margin-left: 10px;
+}
+
+.student-dashboard h1{
+  color: rgb(60, 12, 60);
+}
+
+.student-dashboard {
+  height: 50vh;
+  font-family: Arial, sans-serif;
+  padding: 20px;
+  background: linear-gradient(135deg, #4a90e2, #8e44ad);
+  color: #fff;
+  border-radius: 10px;
+  animation: fadeIn 0.5s ease;
+  margin-right: 10px;
 }
 
 @keyframes fadeIn {
@@ -19,6 +44,20 @@
     transform: translateY(0);
   }
 }
+.loader {
+  border: 5px solid #f3f3f3; /* Light grey */
+  border-top: 5px solid #3498db; /* Blue */
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  animation: spin 0.5s linear;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
 
 .upload-section {
   margin-bottom: 30px;
@@ -34,6 +73,10 @@
     opacity: 1;
     transform: translateX(0);
   }
+}
+
+.fileInput{
+  display: block;
 }
 
 .dropzone {
@@ -55,6 +98,7 @@
 
 .dropzone.has-pdf {
   background-color: rgba(46, 204, 113, 0.5);
+  border-style: solid;
 }
 
 .dropzone p {
@@ -109,10 +153,11 @@ button:hover {
 
 .feedback-section li {
   margin-bottom: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.5);
+  /* border: 1px solid rgba(88, 32, 109, 0.983); */
   padding: 10px;
+  margin-left: 0px;
   border-radius: 5px;
-  background-color: rgba(255, 255, 255, 0.1);
+  background: linear-gradient(135deg,#4a90e2,#8e44ad,);
   animation: slideInRight 0.5s ease;
 }
 
@@ -130,3 +175,113 @@ button:hover {
 .feedback-section p {
   margin: 5px 0;
 }
+
+.skill-head{
+  color: rgb(60, 12, 60);
+  font-weight: 600;
+}
+
+.dropzone.dragover {
+  border-color: #007bff; /* Change border color */
+  background-color: #f0faff; /* Change background color */
+}
+
+.logout-button {
+  background-color: #007bff; /* Tomato color */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  margin-top: 20px; /* Add margin for spacing */
+  align-self: center;
+}
+
+.logout-button:hover {
+  background-color: #ff4500; /* Darker tomato color */
+  color: black;
+  transform: scale(1.05);
+}
+
+.logout-button:active {
+  background-color: #ff6347; /* Tomato color */
+  transform: scale(0.95);
+}
+
+.alumni-details {
+  font-family: Arial, sans-serif;
+  padding: 10px;
+  background: linear-gradient(135deg, #4a90e2, #8e44ad);
+  color: #fff;
+  border-radius: 10px;
+  animation: popIn 0.5s ease;
+  margin-top: 20px;
+  margin-left: 30px;
+}
+
+@keyframes popIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.alumni-details h3 {
+  color: rgb(60, 12, 60);
+  margin-top: 0;
+}
+
+.alumni-details p {
+  margin: 10px 0;
+}
+
+.alumni-details .alumni-name {
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
+.alumni-details .alumni-email,
+.alumni-details .alumni-linkedin,
+.alumni-details .alumni-current-role {
+  font-style: italic;
+}
+
+.alumni-details .alumni-linkedin a {
+  color: #fff;
+  text-decoration: underline;
+  transition: color 0.3s ease;
+}
+
+.alumni-details .alumni-linkedin a:hover {
+  color: #2980b9;
+}
+
+@keyframes slideInBottom {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.alumni-details .alumni-info {
+  animation: slideInBottom 0.5s ease;
+}
+
+.alumni-details .alumni-info:nth-child(odd) {
+  animation-delay: 0.2s;
+}
+
+.alumni-details .alumni-info:nth-child(even) {
+  animation-delay: 0.4s;
+}
+

@@ -1,72 +1,124 @@
 /* AlumniDashboard.css */
 
 .alumni-dashboard {
-    font-family: Arial, sans-serif;
-    padding: 20px;
-    height: 50vh;
-    width: 75vw;
-    background: linear-gradient(135deg, #3498db, #8e44ad);
-    color: #fff;
-    border-radius: 10px;
+  font-family: Arial, sans-serif;
+  padding: 20px;
+  height: auto;
+  width: 75vw;
+  background: linear-gradient(135deg, #3498db, #8e44ad);
+  color: #fff;
+  border-radius: 10px;
+}
+.alumni-dashboard h1{
+  color: rgb(121, 40, 121);
+}
+
+.dashboard-title {
+  color: #fff;
+}
+
+.section-title {
+  color: #fff;
+  margin-top: 20px;
+}
+
+.resume-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.resume-item {
+  cursor: pointer;
+  background-color: rgba(255, 255, 255, 0.2);
+  padding: 10px;
+  margin-bottom: 5px;
+  border-radius: 5px;
+}
+
+.resume-item:hover {
+  background-color: rgba(48, 46, 48, 0.3);
+}
+
+.resume-review-section {
+  margin-top: 20px;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
   }
-  
-  .dashboard-title {
-    color: #fff;
+  50% {
+    transform: scale(1.05);
   }
-  
-  .section-title {
-    color: #fff;
-    margin-top: 20px;
+  100% {
+    transform: scale(1);
   }
-  
-  .resume-list {
-    list-style-type: none;
-    padding: 0;
-  }
-  
-  .resume-item {
-    cursor: pointer;
-    background-color: rgba(255, 255, 255, 0.2);
-    padding: 10px;
-    margin-bottom: 5px;
-    border-radius: 5px;
-  }
-  
-  .resume-item:hover {
-    background-color: rgba(255, 255, 255, 0.3);
-  }
-  
-  .resume-review-section {
-    margin-top: 20px;
-  }
-  
-  .view-resume-link {
-    display: block;
-    margin-bottom: 10px;
-    color: #fff;
-    text-decoration: none;
-  }
-  
-  .feedback-input {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    border-radius: 5px;
-    background-color: rgba(255, 255, 255, 0.1);
-    color: #fff;
-  }
-  
-  .submit-button {
-    background-color: #fff;
-    color: #333;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .submit-button:hover {
-    background-color: rgba(255, 255, 255, 0.9);
-  }
-  
+}
+
+.view-resume-link {
+  display: inline-block;
+  margin-bottom: 10px;
+  color: #fcfcfc;
+  text-decoration: none;
+  padding: 10px 20px;
+  border: 1px solid #fff;
+  border-radius: 5px;
+  transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+  animation: pulse 2s infinite alternate; /* Added animation */
+}
+
+.view-resume-link:hover {
+  background-color: rgba(174, 119, 236, 0.9);
+  border-color: #8e44ad;
+  color: #100511;
+  animation: none; /* Stop animation on hover */
+}
+
+.feedback-input {
+  width: calc(100% - 22px);
+  padding: 10px;
+  margin-bottom: 10px;
+  font-size: large;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 5px;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #0c0606;
+}
+
+.submit-button {
+  background-color: #fff;
+  color: #333;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.submit-button:hover {
+  background-color: rgba(219, 106, 232, 0.9);
+  color: #100511;
+}
+
+.logout-button {
+  background-color: #007bff; /* Tomato color */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  margin-top: 20px; /* Add margin for spacing */
+}
+
+.logout-button:hover {
+  background-color: #ff4500; /* Darker tomato color */
+  color: black;
+  transform: scale(1.05);
+}
+
+.logout-button:active {
+  background-color: #ff6347; /* Tomato color */
+  transform: scale(0.95);
+}

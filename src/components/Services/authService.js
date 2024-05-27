@@ -1,7 +1,7 @@
-const API_URL = 'http://localhost:9000/api'
+const API_URL = process.env.REACT_APP_API_URL;
 
 export const register = async(userDetails) =>{
-    const url = `${API_URL}/register`
+    const url = `${API_URL}/api/register`
     const config = {
         method :'POST',
         headers :{
@@ -17,7 +17,7 @@ export const register = async(userDetails) =>{
 }
 
 export const login = async(username,password)=>{
-    const url = `${API_URL}/login`
+    const url = `${API_URL}/api/login`
     const config = {
         method : 'POST',
         headers : {

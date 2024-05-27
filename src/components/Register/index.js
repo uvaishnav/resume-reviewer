@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { register } from '../Services/authService';
 import './index.css'; // Import CSS file for styling
 
 const Register = () => {
+  const navigate = useNavigate();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
@@ -33,6 +35,7 @@ const Register = () => {
       .then(response => {
         setMessage(response);
         alert(response);
+        navigate('/login');
       })
       .catch(error => {
         setMessage(error);
