@@ -2,7 +2,7 @@
 
 body {
     font-family: Arial, sans-serif;
-    background-image: url('/Users/uvaishnav/resume-reviewer/public/ezgif-6-736bd20786.gif'); /* Replace with the correct path */
+    background-image: url('../../../public/ezgif-6-736bd20786.gif'); /* Replace with the correct path */
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
